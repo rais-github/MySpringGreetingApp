@@ -22,8 +22,9 @@ public class GreetingController {
     }
 
     @PostMapping("/add")
-    public String createNewGreeting(){
-        return "Creating new Greeting...";
+    public ResponseEntity<Greeting> createNewGreeting(@RequestBody User user) {
+        Greeting greeting = greetingService.addGreeting(user);
+        return ResponseEntity.ok(greeting);
     }
 
     @GetMapping("g/id/{myId}")

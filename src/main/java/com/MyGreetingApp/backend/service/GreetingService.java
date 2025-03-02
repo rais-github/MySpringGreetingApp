@@ -19,7 +19,17 @@ public class GreetingService implements IGreetingService{
 
     @Override
     public Greeting addGreeting(User user) {
-        String message = String.format(template,(user.toString().isEmpty())?"Hello World":user.toString());
+        String message;
+
+        if (user.getFirstName() != null && user.getLastName() != null) {
+            message = String.format(template, user.getFirstName(), user.getLastName());
+        } else if (user.getFirstName() != null) {
+            message = String.format("Hello, %s!", user.getFirstName());
+        } else if (user.getLastName() != null) {
+            message = String.format("Hello, %s!", user.getLastName());
+        } else {
+            message = "Hello, World!";
+        }
         return greetingRepository.save(new Greeting(counter.incrementAndGet(),message));
     }
 
