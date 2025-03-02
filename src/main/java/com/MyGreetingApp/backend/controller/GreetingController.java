@@ -1,11 +1,13 @@
 package com.MyGreetingApp.backend.controller;
 
+import com.MyGreetingApp.backend.model.Greeting;
+import com.MyGreetingApp.backend.model.User;
 import com.MyGreetingApp.backend.service.IGreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/greetings")
@@ -44,4 +46,17 @@ public class GreetingController {
         return greetingService.sayHello();
     }
 
+    @GetMapping("/greet")
+    public ResponseEntity<Greeting> greet(
+            @RequestParam(value = "firstName", defaultValue = "") String firstName,
+            @RequestParam(value = "lastName", defaultValue = "") String lastName) {
+
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+
+        return ResponseEntity.ok(greetingService.addGreeting(user));
+    }
+
+    
 }

@@ -28,7 +28,8 @@ public class GreetingService implements IGreetingService{
         return greetingRepository.findById(id).get();
     }
 
+    @Override
     public String sayHello(){
-        return "Hello World";
+        return "Hello";
     }
 }
