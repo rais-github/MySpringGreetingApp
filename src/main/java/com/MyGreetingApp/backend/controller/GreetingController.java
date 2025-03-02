@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/greetings")
@@ -17,8 +19,9 @@ public class GreetingController {
     private IGreetingService greetingService;
 
     @GetMapping
-    public String getAllGreetings(){
-        return "List of all the greetings";
+    public ResponseEntity<List<Greeting>> getAllGreetings() {
+        List<Greeting> greetings = greetingService.getAll();
+        return ResponseEntity.ok(greetings);
     }
 
     @PostMapping("/add")
