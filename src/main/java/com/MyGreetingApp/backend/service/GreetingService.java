@@ -35,8 +35,9 @@ public class GreetingService implements IGreetingService{
 
     @Override
     public Greeting getGreetingById(long id) {
-        return greetingRepository.findById(id).get();
+        return greetingRepository.findById(id).orElse(null);
     }
+
 
     @Override
     public String sayHello(){

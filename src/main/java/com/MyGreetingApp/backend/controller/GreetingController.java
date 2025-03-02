@@ -28,8 +28,25 @@ public class GreetingController {
     }
 
     @GetMapping("g/id/{myId}")
-    public String getGreetingById(@PathVariable long myId){
-        return "greeting  id: "+myId;
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable long myId) {
+
+        try {
+            Greeting greeting = greetingService.getGreetingById(myId);
+
+           
+            System.out.println("Greeting: " + greeting);
+
+            if (greeting != null) {
+                return ResponseEntity.ok(greeting);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+
     }
 
     @PutMapping("u/id/{myId}")
