@@ -52,9 +52,10 @@ public class GreetingController {
 
     }
 
-    @PutMapping("u/id/{myId}")
-    public String updateGreetingById(@PathVariable long myId){
-        return "Greeting updated with id: "+myId;
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Greeting> updateGreeting(@PathVariable Long id, @RequestBody Greeting updatedGreeting) {
+        Greeting updated = greetingService.updateGreetingById(id, updatedGreeting);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("d/id/{myId}")

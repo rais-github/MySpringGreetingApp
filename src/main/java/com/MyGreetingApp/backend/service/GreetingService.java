@@ -1,5 +1,6 @@
 package com.MyGreetingApp.backend.service;
 
+import com.MyGreetingApp.backend.GreetingNotFoundException;
 import com.MyGreetingApp.backend.model.Greeting;
 import com.MyGreetingApp.backend.model.User;
 import com.MyGreetingApp.backend.repository.GreetingRepository;
@@ -42,6 +43,17 @@ public class GreetingService implements IGreetingService{
     @Override
     public List<Greeting> getAll(){
         return greetingRepository.findAll();
+    }
+
+    @Override
+    public Greeting updateGreetingById(Long id, Greeting updatedGreeting) {
+        // Retrieve the existing greeting from the repository
+        Greeting existingGreeting = greetingRepository.findById(id)
+                .orElseThrow(() -> new GreetingNotFoundException(id));
+
+        // Update the fields with new values
+        existingGreeting.setMessage(updatedGreeting.getMessage());
+        return greetingRepository.save(existingGreeting);
     }
 
     @Override
