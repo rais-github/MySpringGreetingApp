@@ -39,4 +39,9 @@ public class GreetingController {
         return "Remove Greeting with id :"+myId;
     }
 
+    @GetMapping("/hello")
+    public String sayHello(){
+        return greetingService.sayHello();
+    }
+
 }

@@ -27,4 +27,8 @@ public class GreetingService implements IGreetingService{
     public Greeting getGreetingById(long id) {
         return greetingRepository.findById(id).get();
     }
+
+    public String sayHello(){
+        return "Hello World";
+    }
 }
