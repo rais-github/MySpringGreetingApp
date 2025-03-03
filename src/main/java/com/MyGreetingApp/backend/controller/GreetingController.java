@@ -59,8 +59,10 @@ public class GreetingController {
     }
 
     @DeleteMapping("d/id/{myId}")
-    public String removeGreetingById(@PathVariable long myId){
-        return "Remove Greeting with id :"+myId;
+    public ResponseEntity<Greeting> removeGreetingById(@PathVariable Long myId){
+        Greeting deleted = greetingService.getGreetingById(myId);
+        greetingService.removeGreetingById(myId);
+        return ResponseEntity.ok(deleted);
     }
 
     @GetMapping("/hello")
