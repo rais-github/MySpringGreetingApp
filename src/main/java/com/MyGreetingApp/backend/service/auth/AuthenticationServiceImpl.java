@@ -6,6 +6,7 @@ import com.MyGreetingApp.backend.dto.UserDto;
 
 import com.MyGreetingApp.backend.model.User;
 import com.MyGreetingApp.backend.repository.UserRepository;
+import com.MyGreetingApp.backend.service.EmailService;
 import com.MyGreetingApp.backend.util.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public AuthenticationServiceImpl(EmailService emailService,UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.emailService=emailService;
     }
 
     @Override
@@ -38,8 +41,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userRepository.save(user);
 
+
+        String subject = "Welcome to MyGreetingApp!";
+        String message = "Hello " + user.getFirstName() + ", welcome to our application!\n\n"
+                + "Please find the attached user guide.";
+
+
+        String attachmentPath = "src/main/resources/static/Himanshu_Rai_CV.pdf";
+
+        if (attachmentPath == null || attachmentPath.isEmpty()) {
+
+            emailService.sendEmail(user.getEmail(), subject, message, user.getEmail());
+        } else {
+
+            emailService.sendEmailWithAttachment(user.getEmail(), subject, message, attachmentPath, user.getEmail());
+        }
+
         return "User registered successfully!";
     }
+
+
+
 
     @Override
 
