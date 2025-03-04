@@ -40,6 +40,7 @@ public class SecurityConfigurer {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()  // ✅ Public routes
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/swagger-ui/index.html").permitAll()
                         .requestMatchers("/api/greetings/**", "/api/users/**").authenticated()
                         .anyRequest().authenticated()
                 )
