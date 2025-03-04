@@ -1,25 +1,23 @@
 package com.MyGreetingApp.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // ✅ Auto-generate the ID
     private Long id;
+
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-
+    // Getters and Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -55,7 +53,7 @@ public class User {
     }
 
     @Override
-    public String toString(){
-        return "User firstname is "+this.firstName+" and lastName is "+lastName;
+    public String toString() {
+        return "User firstname is " + this.firstName + " and lastName is " + lastName;
     }
 }

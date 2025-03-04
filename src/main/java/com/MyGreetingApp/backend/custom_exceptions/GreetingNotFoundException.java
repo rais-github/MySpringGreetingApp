@@ -1,4 +1,4 @@
-package com.MyGreetingApp.backend;
+package com.MyGreetingApp.backend.custom_exceptions;
 
 public class GreetingNotFoundException extends RuntimeException {
     public GreetingNotFoundException(Long id) {

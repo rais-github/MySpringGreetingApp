@@ -1,6 +1,6 @@
 package com.MyGreetingApp.backend.service;
 
-import com.MyGreetingApp.backend.GreetingNotFoundException;
+import com.MyGreetingApp.backend.custom_exceptions.GreetingNotFoundException;
 import com.MyGreetingApp.backend.model.Greeting;
 import com.MyGreetingApp.backend.model.User;
 import com.MyGreetingApp.backend.repository.GreetingRepository;
