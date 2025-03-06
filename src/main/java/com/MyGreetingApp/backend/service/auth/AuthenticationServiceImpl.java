@@ -82,4 +82,45 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new LoginResponseDto("Login successful!", token);
     }
 
+    @Override
+    public String forgotPassword(String email, String newPassword) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            return "Sorry! We cannot find the user email: " + email;
+        }
+
+        User user = userOptional.get();
+        user.setPassword(passwordEncoder.encode(newPassword)); // Hash the new password
+        userRepository.save(user);
+
+        // Send confirmation email
+        String subject = "Password Reset Confirmation";
+        String message = "Hello " + user.getFirstName() + ",\n\nYour password has been successfully updated.";
+        emailService.sendEmail(user.getEmail(), subject, message, user.getEmail());
+
+        return "Password has been changed successfully!";
+    }
+
+    @Override
+    public String resetPassword(String email, String currentPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            return "User not found with email: " + email;
+        }
+
+        User user = userOptional.get();
+
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return "Current password is incorrect!";
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return "Password reset successfully!";
+    }
+
+
 }
